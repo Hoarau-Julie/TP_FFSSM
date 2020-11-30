@@ -4,12 +4,9 @@ import java.time.LocalDate;
 
 public class Embauche {
 
-    private LocalDate debut;
-
+    private final LocalDate debut;
     private LocalDate fin;
-
     private final Moniteur employe;
-
     private final Club employeur;
 
     public Embauche(LocalDate debut, Moniteur employe, Club employeur) {
@@ -22,17 +19,30 @@ public class Embauche {
      * Termine cette embauche
      * @param dateFin la date à laquelle cette embauche est terminée
      */
-    public void terminer(LocalDate dateFin) {
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");	    
+    public void terminer(LocalDate dateFin) throws Exception 
+    {
+        if(this.fin == null){
+            this.fin = dateFin;
+        }
+        else {
+            throw new Exception("Cette embauche a déjà une date de fin");
+        }
     }
     
     /**
      * Est-ce que cette embauche est terminée ?
      * @return vrai si terminée, faux sinon.
      */
-    public boolean estTerminee() {
-        return (fin != null);
+    public boolean estTerminee() 
+    {
+        if(fin.isBefore(LocalDate.now()))
+        {
+            return true;
+        }
+        else
+        {
+        return false;
+        }
     }
     /**
      * Get the value of employeur
