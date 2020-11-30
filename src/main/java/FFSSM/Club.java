@@ -4,18 +4,17 @@
 package FFSSM;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 public class Club {
 
  
     public Moniteur president;
-
     public String nom;
-
     public String adresse;
-
     public String telephone;
+    public LinkedList<Plongee> plongees = new LinkedList<>();
 
     public Club(Moniteur président, String nom, String telephone) {
         this.president = président;
@@ -29,18 +28,30 @@ public class Club {
      * valide à la date de la plongée
      * @return l'ensemble des plongées non conformes
      */
-    public Set<Plongee> plongeesNonConformes() {
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+    public Set<Plongee> plongeesNonConformes() 
+    {
+        Set plongeesNonConformes = new HashSet();
+        for(int i=0; i < plongees.size(); i++){
+            if(!plongees.get(i).estConforme()){
+                plongeesNonConformes.add(plongees.get(i));
+            }
+        }
+        return plongeesNonConformes;
+        
     }
 
     /**
      * Enregistre une nouvelle plongée organisée par ce club
      * @param p la nouvelle plongée
      */
-    public void organisePlongee(Plongee p) {
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+    public void organisePlongee(Plongee p) throws Exception
+    {
+        for(int i=0; i < plongees.size(); i++){
+            if(plongees.get(i).equals(p)){
+                throw new Exception("Cette plongée existe déjà");
+            }
+        }
+        this.plongees.add(p);
     }
     
     
@@ -48,8 +59,8 @@ public class Club {
         return president;
     }
 
-    public void setPresident(Moniteur président) {
-        this.president = président;
+    public void setPresident(Moniteur president) {
+        this.president = president;
     }
 
     public String getNom() {
@@ -80,5 +91,6 @@ public class Club {
     public String toString() {
         return "Club{" + "président=" + president + ", nom=" + nom + ", adresse=" + adresse + ", telephone=" + telephone + '}';
     }
+
 
 }
