@@ -6,9 +6,11 @@ import FFSSM.Plongee;
 import FFSSM.Plongeur;
 import FFSSM.Site;
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 
@@ -39,35 +41,10 @@ public class FFSSMJUnitTests {
         M1 = new Moniteur("1650829490102","Bunny","Lola","15 avenue Warner Bros, LA","0714756234",LocalDate.of(1965,8,22),GroupeSanguin.AMOINS,50349812);
         M2 = new Moniteur("1551029480012","Titi","Grominet","14 avenue Warner Bros, LA","0725489325",LocalDate.of(1955,10,11),GroupeSanguin.BMOINS,10452357);
         WarnerBros = new Club(M2,"Looney Tunes Scuba Diving","0123568478");
-        Bermudes = new Site("Bermudes Los Angeles","La plaine abyssale");
+        Bermudes = new Site("Bermudes Los Angeles","La Toons squale");
         Pl1 = new Plongee(Bermudes, M1, LocalDate.of(2020,11,25), 37, 57);
         Pl2 = new Plongee(M1);
         
-    }
-    
-    /**
-     * Test l'ajout d'une licence à un plongeur sans club
-     * @throws Exception 
-     */
-    @Test
-    public void testAjouteLicenceSansClub() throws Exception{
-        //force le déclenchement d'une exception
-        Exception thrown = assertThrows(Exception.class,
-                () -> {
-            try {
-                P2.ajouteLicence("125J15634D", LocalDate.of(2020,9,15));
-            } catch (Exception ex) {
-                Logger.getLogger(FFSSMJUnitTests.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-        
-        //s'assure que le message d'exception affiché soit le bon
-        assertEquals("Ce plongeur doit être rattaché à un club pour obtenir une licence",
-                thrown.getMessage(),
-                "Une licence ne doit pas pouvoir être ajoutée à un plongeur sans club");
-        
-        //s'assure que l'exception se soit bien déclenchée et qu'aucune licence n'ait été créée
-        assertNull(P2.getLicence(),"Aucune licence ne devrait avoir été ajoutée à ce plongeur");
     }
     
     /**
@@ -119,12 +96,13 @@ public class FFSSMJUnitTests {
     
     /**
      * Test d'ajout de articipants à une plongee
+     * @java.lang.Exception 
      */
     @Test
     public void testAjouteParticipant()throws Exception{
         Pl2.ajouteParticipant(P1);
         
-        assertTrue(Pl1.participants.contains(P1),
+        assertTrue(Pl2.participants.contains(P1),
                 "Ce participant n'a pas été ajouté à la plongée");
         
         
@@ -209,9 +187,9 @@ public class FFSSMJUnitTests {
         //Site.getNom
         assertEquals("Bermudes Los Angeles", Bermudes.getNom());
         //Plongee.getDate
-        assertEquals(LocalDate.of(2020,11,29),Pl1.getDate());
+        assertEquals(LocalDate.of(2020,11,25),Pl1.getDate());
         //Plongeur.getGroupe
-        assertEquals(GroupeSanguin.BPLUS, P1.getGroupe());
+        assertEquals(GroupeSanguin.APLUS, P1.getGroupe());
         //Plongeur.getClub
         P1.setClub(WarnerBros);
         assertEquals(WarnerBros, P1.getClub());
@@ -275,5 +253,3 @@ public class FFSSMJUnitTests {
                 WarnerBros.toString());
     }
 }
-
-    
